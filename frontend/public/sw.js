@@ -4,9 +4,11 @@
 const VERSION = 'v1'
 const SHELL = `shell-${VERSION}`
 const DATA = `data-${VERSION}`
+// The app's root URL; the app may live under a subpath such as /weather/.
+const ROOT = self.registration.scope
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(SHELL).then((cache) => cache.addAll(['/'])))
+  event.waitUntil(caches.open(SHELL).then((cache) => cache.addAll([ROOT])))
   self.skipWaiting()
 })
 
@@ -50,7 +52,7 @@ self.addEventListener('fetch', (event) => {
 
   if (request.mode === 'navigate') {
     // Every route is the same SPA document.
-    event.respondWith(networkFirst(request, SHELL, '/'))
+    event.respondWith(networkFirst(request, SHELL, ROOT))
   } else if (url.origin === self.location.origin) {
     // Vite fingerprints built assets, so a cached copy is never stale.
     event.respondWith(cacheFirst(request, SHELL))

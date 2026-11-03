@@ -18,6 +18,7 @@
     "backend": "bun run --cwd backend api",
     "frontend": "bun run --cwd frontend dev",
     "build": "bun run --cwd frontend build",
+    "deploy": "bun run ./scripts/deploy-pages.ts",
     "test": "bun run --cwd backend test",
     "lint": "bun run --cwd frontend lint",
     "typecheck": "bun run --cwd backend typecheck && bun run --cwd database typecheck && bun run --cwd frontend typecheck",

@@ -11,7 +11,7 @@ locate()
 // The service worker caches the app shell and last forecasts so the installed
 // app opens offline. Skipped in dev, where it would serve stale modules.
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
-  void navigator.serviceWorker.register('/sw.js')
+  void navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`)
 }
 
 render(

@@ -1,4 +1,5 @@
 import WeatherView from '@/features/weather/WeatherView'
+import { href } from '@/lib/paths'
 import { locate, myLocation, savedPlaces } from '@/store/places'
 
 export default function HomePage() {
@@ -44,7 +45,7 @@ export default function HomePage() {
       </p>
       <div class="flex flex-wrap gap-3">
         <a
-          href="/search"
+          href={href('/search')}
           class="border border-lime bg-lime px-4 py-2 font-mono text-xs font-semibold uppercase tracking-widest text-accent-ink"
         >
           Search cities

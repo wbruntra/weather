@@ -6,6 +6,8 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // GitHub Pages serves the app from a subpath; the deploy workflow sets BASE_PATH.
+  base: process.env.BASE_PATH ?? '/',
   plugins: [preact(), tailwindcss()],
   resolve: {
     alias: {

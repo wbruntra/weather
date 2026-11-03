@@ -1,5 +1,6 @@
 import { effect, signal } from '@preact/signals'
 import type { Place, Units } from '@/lib/openMeteo'
+import { href } from '@/lib/paths'
 
 const SAVED_KEY = 'weather-saved-places'
 const UNITS_KEY = 'weather-units'
@@ -34,7 +35,7 @@ export function placeHref(place: Place) {
     name: place.name,
   })
   if (place.detail) params.set('detail', place.detail)
-  return `/place?${params}`
+  return `${href('/place')}?${params}`
 }
 
 // --- Saved cities ----------------------------------------------------------

@@ -1,6 +1,7 @@
 import { useLocation } from 'preact-iso'
 import WeatherView from '@/features/weather/WeatherView'
 import type { Place } from '@/lib/openMeteo'
+import { href } from '@/lib/paths'
 import { placeKey } from '@/store/places'
 
 /** Weather for any place, addressed by URL so the back button and links work. */
@@ -13,7 +14,7 @@ export default function PlacePage() {
     return (
       <p class="text-sm text-ink-dim">
         That place link is incomplete.{' '}
-        <a href="/search" class="text-lime underline">
+        <a href={href('/search')} class="text-lime underline">
           Search for a city
         </a>
         .

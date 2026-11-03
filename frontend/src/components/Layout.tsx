@@ -1,5 +1,6 @@
 import type { ComponentChildren } from 'preact'
 import { useLocation } from 'preact-iso'
+import { appPath, href } from '@/lib/paths'
 import { placeHref, placeKey, savedPlaces, units } from '@/store/places'
 import ThemeToggle from '@/components/ThemeToggle'
 
@@ -59,7 +60,9 @@ function UnitsToggle() {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { path, query } = useLocation()
+  const location = useLocation()
+  const { query } = location
+  const path = appPath(location.path)
   const activeKey =
     path === '/place' && query.lat && query.lon
       ? placeKey({ latitude: Number(query.lat), longitude: Number(query.lon) })
@@ -70,7 +73,7 @@ export default function Layout({ children }: LayoutProps) {
       <nav class="sticky top-0 z-20 border-b border-void-line/80 bg-void/85 backdrop-blur">
         <div class="mx-auto flex max-w-xl items-center gap-3 px-4 py-3">
           <div class="-my-1 flex min-w-0 flex-1 gap-2 overflow-x-auto py-1 [scrollbar-width:none]">
-            <a href="/" class={chipClass(path === '/')} aria-label="My location">
+            <a href={href('/')} class={chipClass(path === '/')} aria-label="My location">
               <LocationIcon />
               Here
             </a>
@@ -83,7 +86,11 @@ export default function Layout({ children }: LayoutProps) {
                 {place.name}
               </a>
             ))}
-            <a href="/search" class={chipClass(path === '/search')} aria-label="Search cities">
+            <a
+              href={href('/search')}
+              class={chipClass(path === '/search')}
+              aria-label="Search cities"
+            >
               <SearchIcon />
             </a>
           </div>
