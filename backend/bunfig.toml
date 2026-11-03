@@ -1,0 +1,5 @@
+[run]
+# Bun will use tsconfig.json paths for module resolution
+
+[test]
+preload = ["./test/setup.ts"]

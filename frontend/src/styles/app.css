@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+
+  /* dark "terminal editorial" theme — default */
+  --color-ink: #f3f1e7;
+  --color-ink-dim: #a3a196;
+  --color-void: #0a0a0b;
+  --color-void-raised: #131315;
+  --color-void-line: #232326;
+  --color-lime: #c8ff4d;
+  --color-lime-dim: #8fb838;
+  --color-flame: #ff5d3d;
+  --color-sky: #6fd6ff;
+  --color-accent-ink: #0a0a0b;
+  --color-sun: #ffc94d;
+}
+
+:root[data-theme='dark'] {
+  --color-ink: #f3f1e7;
+  --color-ink-dim: #a3a196;
+  --color-void: #0a0a0b;
+  --color-void-raised: #131315;
+  --color-void-line: #232326;
+  --color-lime: #c8ff4d;
+  --color-lime-dim: #8fb838;
+  --color-flame: #ff5d3d;
+  --color-sky: #6fd6ff;
+  --color-accent-ink: #0a0a0b;
+  --color-sun: #ffc94d;
+}
+
+/* light "paper" theme */
+:root[data-theme='light'] {
+  --color-ink: #1b1a13;
+  --color-ink-dim: #6e6b5c;
+  --color-void: #f6f3e8;
+  --color-void-raised: #fffdf6;
+  --color-void-line: #ddd7c4;
+  --color-lime: #4a6318;
+  --color-lime-dim: #6b8e23;
+  --color-flame: #b3391c;
+  --color-sky: #1c6f92;
+  --color-accent-ink: #fdfbf3;
+  --color-sun: #b8740f;
+}
+
+/* solarized theme */
+:root[data-theme='solarized'] {
+  --color-ink: #eee8d5;
+  --color-ink-dim: #93a1a1;
+  --color-void: #002b36;
+  --color-void-raised: #073642;
+  --color-void-line: #124e5b;
+  --color-lime: #859900;
+  --color-lime-dim: #586e75;
+  --color-flame: #cb4b16;
+  --color-sky: #268bd2;
+  --color-accent-ink: #002b36;
+  --color-sun: #b58900;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(
+        circle at 15% 0%,
+        color-mix(in oklab, var(--color-lime) 10%, transparent),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 100% 30%,
+        color-mix(in oklab, var(--color-sky) 8%, transparent),
+        transparent 40%
+      );
+    background-attachment: fixed;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-accent-ink);
+  }
+
+  code {
+    font-family: var(--font-mono);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

@@ -1,0 +1,31 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "bun check && vite build",
+    "lint": "oxlint",
+    "typecheck": "bun check",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@preact/signals": "^2.3.0",
+    "@scaffold/backend": "*",
+    "@scaffold/shared": "*",
+    "@tanstack/preact-query": "^5.104.0",
+    "hono": "^4.13.2",
+    "preact": "^10.29.8",
+    "preact-iso": "^2.12.2"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.6",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "oxlint": "^1.78.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.0"
+  }
+}

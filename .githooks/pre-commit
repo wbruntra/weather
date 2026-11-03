@@ -1,0 +1,7 @@
+#!/bin/sh
+# Formats staged files with `bun fmt` and restages them before the commit is
+# created. Aborts if a file has both staged and unstaged changes.
+#
+# Enabled by `bun run setup` (or `bun run hooks:install`), which points
+# core.hooksPath at this directory. Bypass with `git commit --no-verify`.
+exec bun fmt --staged

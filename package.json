@@ -1,0 +1,37 @@
+{
+  "name": "scaffold",
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared",
+    "database"
+  ],
+  "scripts": {
+    "init": "bun run ./scripts/init.ts",
+    "setup": "bun install && bun run hooks:install && bun run db:migrate && bun run db:seed",
+    "hooks:install": "git config core.hooksPath .githooks",
+    "format": "bun fmt",
+    "format:check": "bun fmt --check",
+    "dev": "bun run --parallel backend frontend",
+    "backend": "bun run --cwd backend api",
+    "frontend": "bun run --cwd frontend dev",
+    "build": "bun run --cwd frontend build",
+    "test": "bun run --cwd backend test",
+    "lint": "bun run --cwd frontend lint",
+    "typecheck": "bun run --cwd backend typecheck && bun run --cwd database typecheck && bun run --cwd frontend typecheck",
+    "check": "bun run format:check && bun run typecheck && bun run lint && bun run test",
+    "db:generate": "bun run --cwd database db:generate",
+    "db:migrate": "bun run --cwd database db:migrate",
+    "db:seed": "bun run --cwd database db:seed",
+    "db:reset": "bun run --cwd database db:reset"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": ">=5"
+  }
+}
