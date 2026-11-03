@@ -1,5 +1,6 @@
 import { effect, signal } from '@preact/signals'
 import type { Place, Units } from '@/lib/openMeteo'
+import { reverseGeocode } from '@/lib/nominatim'
 import { href } from '@/lib/paths'
 
 const SAVED_KEY = 'weather-saved-places'
@@ -75,7 +76,21 @@ export type LocationState =
   | { status: 'ready'; place: Place }
   | { status: 'unavailable'; reason: string; place?: Place }
 
+/** Shown until the position has been named, or if naming it fails. */
+const UNNAMED = 'My location'
+
 const lastPosition = load<Place | undefined>(LAST_POSITION_KEY, undefined)
+
+/** Replaces the placeholder name with the town at the position, if one is found. */
+async function nameMyLocation(place: Place) {
+  const found = await reverseGeocode(place.latitude, place.longitude).catch(() => undefined)
+  const current = myLocation.value
+  // Skip if the position moved on while the lookup was in flight.
+  if (!found || !current.place || placeKey(current.place) !== placeKey(place)) return
+  const named = { ...current.place, ...found }
+  persist(LAST_POSITION_KEY, named)
+  myLocation.value = { ...current, place: named }
+}
 
 // Start from the last known position so the app renders instantly on launch,
 // then refresh it in the background.
@@ -92,22 +107,30 @@ export function locate() {
     return
   }
   myLocation.value = { status: 'locating', place: previous }
+  // Callbacks read the state when they fire, not `previous`: another locate() may
+  // have finished in the meantime, and its result must not be overwritten.
   navigator.geolocation.getCurrentPosition(
     ({ coords }) => {
-      const place: Place = {
-        name: 'My location',
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      }
+      const position = { latitude: coords.latitude, longitude: coords.longitude }
+      const latest = myLocation.value.place
+      // Still within ~1 km of the last lookup: keep its town name.
+      const known = latest && placeKey(latest) === placeKey(position) ? latest : undefined
+      const place: Place =
+        known && known.name !== UNNAMED
+          ? { ...known, ...position }
+          : { name: UNNAMED, ...position }
       persist(LAST_POSITION_KEY, place)
       myLocation.value = { status: 'ready', place }
+      if (place.name === UNNAMED) void nameMyLocation(place)
     },
     (error) => {
+      // A newer request already succeeded; this stale failure changes nothing.
+      if (myLocation.value.status === 'ready') return
       const reason =
         error.code === error.PERMISSION_DENIED
           ? 'Location permission was denied'
           : 'Could not determine your location'
-      myLocation.value = { status: 'unavailable', reason, place: previous }
+      myLocation.value = { status: 'unavailable', reason, place: myLocation.value.place }
     },
     { maximumAge: 10 * 60 * 1000, timeout: 15_000 },
   )

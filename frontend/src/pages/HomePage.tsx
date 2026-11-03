@@ -17,7 +17,7 @@ export default function HomePage() {
             ? 'Updating location…'
             : location.status === 'unavailable'
               ? `${location.reason} — showing your last known location`
-              : undefined
+              : 'Current location'
         }
       />
     )
