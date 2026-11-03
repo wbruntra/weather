@@ -1,7 +1,7 @@
 // Service worker for the installed app: serves the app shell offline and falls
 // back to the last forecast fetched for a place when the network is down.
 // Bump VERSION to drop every old cache on the next visit.
-const VERSION = 'v1'
+const VERSION = 'v2'
 const SHELL = `shell-${VERSION}`
 const DATA = `data-${VERSION}`
 // The app's root URL; the app may live under a subpath such as /weather/.

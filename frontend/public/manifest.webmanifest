@@ -2,6 +2,7 @@
   "name": "Weather",
   "short_name": "Weather",
   "description": "Local weather, hourly and 7-day forecasts for any city.",
+  "id": "weather-app",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
