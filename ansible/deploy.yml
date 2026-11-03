@@ -1,0 +1,58 @@
+---
+# Deploy the weather app: ansible-playbook ansible/deploy.yml -e deployment=production
+# (or `bun run deploy`). Builds the frontend locally from the working tree and uploads
+# the static files; the server needs no Bun or Node. Set up nginx first with
+# ansible/deploy-nginx.yml.
+- name: Deploy weather
+  hosts: '{{ deployment | mandatory("Pass -e deployment=<profile>, e.g. -e deployment=production") }}'
+  vars:
+    repo_root: '{{ playbook_dir }}/..'
+
+  tasks:
+    - name: 1. Build the frontend
+      # Served from the domain root, so build with the default base.
+      delegate_to: localhost
+      run_once: true
+      command: bun run --cwd frontend build
+      args:
+        chdir: '{{ repo_root }}'
+      environment:
+        BASE_PATH: /
+      tags: [build]
+
+    - name: 2. Create the site directory
+      file:
+        path: '{{ site_root }}'
+        state: directory
+        mode: '0755'
+
+    - name: 3. Upload the build
+      # --delay-updates swaps every file in at the end, so visitors never get a new
+      # index.html that points at assets which have not finished uploading.
+      ansible.posix.synchronize:
+        src: '{{ repo_root }}/frontend/dist/'
+        dest: '{{ site_root }}/'
+        delete: true
+        rsync_opts: [--delay-updates]
+      tags: [upload]
+
+    - name: 4. Verify the site answers
+      delegate_to: localhost
+      uri:
+        url: '{{ public_url }}/'
+        return_content: true
+      register: site_check
+      failed_when: "'/assets/index-' not in site_check.content"
+      changed_when: false
+      tags: [verify]
+
+    - name: Deployed
+      delegate_to: localhost
+      run_once: true
+      command: git -C {{ repo_root }} rev-parse --short HEAD
+      register: sha
+      changed_when: false
+
+    - name: Report
+      debug:
+        msg: '{{ public_url }} is serving {{ sha.stdout }}'

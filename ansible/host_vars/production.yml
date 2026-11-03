@@ -1,0 +1,6 @@
+---
+# weather.bruntrager.win on gaybor_new: nginx serves the built frontend as static
+# files. There is no backend process; the app calls Open-Meteo from the browser.
+server_name: weather.bruntrager.win
+site_root: /home/william/web/weather/dist
+public_url: 'https://{{ server_name }}'

@@ -1,0 +1,65 @@
+---
+# Set up nginx + TLS: ansible-playbook ansible/deploy-nginx.yml -e deployment=production
+# Writes an HTTP-only site and obtains the certificate with certbot (webroot) the first time,
+# then switches to the full HTTPS site. certbot renews it on its own afterwards.
+# Run once per server, and again after changing deploy/nginx.weather.conf.j2.
+# Needs passwordless sudo (or -K).
+- name: Deploy weather nginx config
+  hosts: '{{ deployment | mandatory("Pass -e deployment=<profile>, e.g. -e deployment=production") }}'
+  vars:
+    conf_dest: '/home/{{ ansible_user }}/nginx/sites/weather.conf'
+  tasks:
+    - name: Check for an existing certificate
+      become: yes
+      stat:
+        path: '/etc/letsencrypt/live/{{ server_name }}/fullchain.pem'
+      register: cert
+
+    - name: Write HTTP-only site (no certificate yet)
+      template:
+        src: '{{ playbook_dir }}/../deploy/nginx.weather.conf.j2'
+        dest: '{{ conf_dest }}'
+        mode: '0644'
+      vars:
+        with_ssl: false
+      when: not cert.stat.exists
+
+    - name: Reload nginx for the ACME challenge
+      become: yes
+      shell: nginx -t && systemctl reload nginx
+      when: not cert.stat.exists
+
+    - name: Obtain certificate
+      # No --email: certbot reuses the Let's Encrypt account already registered on this server.
+      become: yes
+      command: >-
+        certbot certonly --webroot -w /var/www/html -d {{ server_name }}
+        --non-interactive --agree-tos
+      when: not cert.stat.exists
+
+    - name: Write HTTPS site
+      template:
+        src: '{{ playbook_dir }}/../deploy/nginx.weather.conf.j2'
+        dest: '{{ conf_dest }}'
+        mode: '0644'
+      vars:
+        with_ssl: true
+      register: nginx_conf
+
+    # nginx includes sites/*, so leftover backups (weather.conf.*~) would be
+    # loaded as duplicate config and break `nginx -t`.
+    - name: Remove stray config backups
+      shell: rm -f '{{ conf_dest }}'.*~
+      changed_when: false
+
+    - name: Test nginx configuration
+      become: yes
+      command: nginx -t
+      changed_when: false
+
+    - name: Reload nginx
+      become: yes
+      service:
+        name: nginx
+        state: reloaded
+      when: nginx_conf is changed or not cert.stat.exists

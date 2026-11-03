@@ -1,0 +1,45 @@
+# Managed by ansible/deploy-nginx.yml. Rendered with ssl on/off depending on
+# whether the certificate exists yet.
+server {
+    listen 80;
+    server_name {{ server_name }};
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
+
+    location / {
+{% if with_ssl %}
+        return 301 https://$host$request_uri;
+{% else %}
+        return 404;
+{% endif %}
+    }
+}
+{% if with_ssl %}
+
+server {
+    listen 443 ssl;
+    server_name {{ server_name }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ server_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ server_name }}/privkey.pem;
+
+    root {{ site_root }};
+
+    # Fingerprinted by Vite, so they never change in place.
+    location /assets/ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    # Must be revalidated so new deploys reach installed apps promptly.
+    location ~ ^/(index\.html|sw\.js|manifest\.webmanifest)$ {
+        add_header Cache-Control "no-cache";
+    }
+
+    # Every app route is the same SPA document.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+{% endif %}

@@ -37,8 +37,15 @@ test@example.com / password123
 
 ## Deploying
 
-See [ansible/README.md](ansible/README.md) for the Ansible playbooks (pm2 + nginx).
-All values in that directory are placeholders.
+The app is static files served by nginx at https://weather.bruntrager.win
+(`gaybor_new`). Deploys use Ansible; settings are in `ansible/host_vars/production.yml`.
+
+```bash
+bun run deploy:nginx   # once per server: nginx site + Let's Encrypt certificate
+bun run deploy         # build locally from the working tree and upload
+```
+
+`bun run deploy:pages` publishes the same build to GitHub Pages under `/weather/`.
 
 ## Commands
 
