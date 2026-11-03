@@ -1,7 +1,7 @@
 // Service worker for the installed app: serves the app shell offline and falls
 // back to the last forecast fetched for a place when the network is down.
 // Bump VERSION to drop every old cache on the next visit.
-const VERSION = 'v2'
+const VERSION = 'v3'
 const SHELL = `shell-${VERSION}`
 const DATA = `data-${VERSION}`
 // The app's root URL; the app may live under a subpath such as /weather/.
@@ -53,9 +53,12 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     // Every route is the same SPA document.
     event.respondWith(networkFirst(request, SHELL, ROOT))
-  } else if (url.origin === self.location.origin) {
+  } else if (url.origin === self.location.origin && url.pathname.includes('/assets/')) {
     // Vite fingerprints built assets, so a cached copy is never stale.
     event.respondWith(cacheFirst(request, SHELL))
+  } else if (url.origin === self.location.origin) {
+    // Unhashed files (manifest, icons) change in place, so prefer the network.
+    event.respondWith(networkFirst(request, SHELL))
   } else if (url.hostname === 'api.open-meteo.com') {
     event.respondWith(networkFirst(request, DATA))
   } else if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
