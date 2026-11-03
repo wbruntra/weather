@@ -40,7 +40,7 @@ export default function HourlyForecast({ forecast }: { forecast: Forecast }) {
     <section aria-labelledby="hourly-heading">
       <h2
         id="hourly-heading"
-        class="mb-3 font-mono text-[0.65rem] uppercase tracking-widest text-ink-dim"
+        class="mb-2 font-mono text-[0.65rem] uppercase tracking-widest text-ink-dim"
       >
         Next 24 hours
       </h2>
@@ -48,15 +48,15 @@ export default function HourlyForecast({ forecast }: { forecast: Forecast }) {
         {hours.map((h, i) => (
           <li
             key={h.time}
-            class="flex w-16 shrink-0 snap-start flex-col items-center gap-2 border border-void-line bg-void-raised/80 py-3"
+            class="flex w-14 shrink-0 snap-start flex-col items-center gap-1.5 border border-void-line bg-void-raised/80 py-2.5"
           >
             <span class="font-mono text-[0.7rem] text-ink-dim">
               {i === 0 ? 'Now' : formatHour(h.time)}
             </span>
-            <WeatherIcon sky={h.sky} isDay={h.isDay} class="h-7 w-7" />
-            <span class="text-lg text-ink">{formatTemp(h.temp)}</span>
+            <WeatherIcon sky={h.sky} isDay={h.isDay} class="h-6 w-6" />
+            <span class="text-base text-ink">{formatTemp(h.temp)}</span>
             {/* Rain chance as a small bar so wet hours stand out at a glance. */}
-            <span class="flex h-8 w-full flex-col items-center justify-end gap-1">
+            <span class="flex h-7 w-full flex-col items-center justify-end gap-1">
               <span
                 class="w-1.5 bg-sky"
                 style={{ height: `${Math.max(h.rain, 2) / 5}px`, opacity: h.rain ? 1 : 0.3 }}

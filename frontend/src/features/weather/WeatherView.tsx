@@ -33,10 +33,10 @@ export default function WeatherView({ place, note, saveable = true }: WeatherVie
   const saved = saveable && isSaved(place)
 
   return (
-    <div class="animate-rise space-y-8">
+    <div class="animate-rise space-y-6">
       <header class="flex items-start justify-between gap-4">
         <div class="min-w-0">
-          <h1 class="truncate font-display text-3xl text-ink">{place.name}</h1>
+          <h1 class="truncate font-display text-2xl text-ink">{place.name}</h1>
           {place.detail && <p class="truncate text-sm text-ink-dim">{place.detail}</p>}
           {note && <p class="mt-1 font-mono text-xs text-ink-dim">{note}</p>}
         </div>

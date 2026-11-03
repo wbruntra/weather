@@ -98,7 +98,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </nav>
 
-      <main class="mx-auto w-full max-w-xl flex-1 px-4 py-6">{children}</main>
+      <main class="mx-auto w-full max-w-xl flex-1 px-4 py-4">{children}</main>
 
       <footer class="mx-auto flex w-full max-w-xl items-center justify-between gap-4 px-4 py-6">
         <a

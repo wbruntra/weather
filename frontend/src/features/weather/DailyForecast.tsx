@@ -14,7 +14,7 @@ export default function DailyForecast({ forecast }: { forecast: Forecast }) {
     <section aria-labelledby="daily-heading">
       <h2
         id="daily-heading"
-        class="mb-3 font-mono text-[0.65rem] uppercase tracking-widest text-ink-dim"
+        class="mb-2 font-mono text-[0.65rem] uppercase tracking-widest text-ink-dim"
       >
         7 days
       </h2>
@@ -27,10 +27,10 @@ export default function DailyForecast({ forecast }: { forecast: Forecast }) {
           return (
             <li
               key={day}
-              class="grid grid-cols-[3rem_2rem_2.5rem_1fr] items-center gap-3 px-4 py-3"
+              class="grid grid-cols-[3rem_2rem_2.5rem_1fr] items-center gap-3 px-4 py-2"
             >
               <span class="text-ink">{i === 0 ? 'Today' : formatWeekday(day)}</span>
-              <WeatherIcon sky={sky} class="h-7 w-7" />
+              <WeatherIcon sky={sky} class="h-6 w-6" />
               <span class={`font-mono text-xs ${rain >= 20 ? 'text-sky' : 'text-ink-dim/60'}`}>
                 {rain}%
               </span>
