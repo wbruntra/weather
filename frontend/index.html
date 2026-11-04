@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0a0a0b" />
+    <meta name="theme-color" content="#0d1a14" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Work+Sans:wght@400;500;600&family=Fira+Code:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -24,11 +24,11 @@
       ;(function () {
         var stored = localStorage.getItem('scaffold-theme')
         var theme = stored
-        if (theme !== 'dark' && theme !== 'light' && theme !== 'solarized') {
+        if (theme !== 'dark' && theme !== 'light' && theme !== 'dracula') {
           theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
         }
         document.documentElement.dataset.theme = theme
-        var bg = { dark: '#0a0a0b', light: '#f6f3e8', solarized: '#002b36' }[theme]
+        var bg = { dark: '#0d1a14', light: '#eef4fa', dracula: '#282a36' }[theme]
         document.querySelector('meta[name="theme-color"]').content = bg
       })()
     </script>

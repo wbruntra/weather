@@ -27,23 +27,14 @@ function SunIcon({ class: className }: { class?: string }) {
   )
 }
 
-function SolarIcon({ class: className }: { class?: string }) {
+function DraculaIcon({ class: className }: { class?: string }) {
   return (
     <svg viewBox="0 0 16 16" fill="none" class={className} aria-hidden="true">
-      <circle cx="8" cy="8" r="2.75" stroke="currentColor" strokeWidth="1.3" />
       <path
-        d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5"
+        d="M8 1.5c.5 3.2 2.3 5 5.5 6.5-3.2 1.5-5 3.3-5.5 6.5-.5-3.2-2.3-5-5.5-6.5C5.7 6.5 7.5 4.7 8 1.5Z"
         stroke="currentColor"
         strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-      <circle
-        cx="8"
-        cy="8"
-        r="5.5"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeDasharray="2 2"
+        strokeLinejoin="round"
       />
     </svg>
   )
@@ -52,7 +43,7 @@ function SolarIcon({ class: className }: { class?: string }) {
 const themeOptions: { id: Theme; label: string; icon: typeof MoonIcon }[] = [
   { id: 'dark', label: 'Dark', icon: MoonIcon },
   { id: 'light', label: 'Light', icon: SunIcon },
-  { id: 'solarized', label: 'Solarized', icon: SolarIcon },
+  { id: 'dracula', label: 'Dracula', icon: DraculaIcon },
 ]
 
 export default function ThemeToggle() {

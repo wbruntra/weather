@@ -1,6 +1,6 @@
 import { signal } from '@preact/signals'
 
-export type Theme = 'dark' | 'light' | 'solarized'
+export type Theme = 'dark' | 'light' | 'dracula'
 
 export interface ThemeInfo {
   id: Theme
@@ -10,13 +10,13 @@ export interface ThemeInfo {
 export const THEMES: readonly ThemeInfo[] = [
   { id: 'dark', label: 'Dark' },
   { id: 'light', label: 'Light' },
-  { id: 'solarized', label: 'Solarized' },
+  { id: 'dracula', label: 'Dracula' },
 ] as const
 
 const STORAGE_KEY = 'scaffold-theme'
 
 function isValidTheme(value: unknown): value is Theme {
-  return value === 'dark' || value === 'light' || value === 'solarized'
+  return value === 'dark' || value === 'light' || value === 'dracula'
 }
 
 function readTheme(): Theme {
@@ -39,9 +39,9 @@ const theme = signal<Theme>(readTheme())
 
 /** Browser chrome color (status bar on phones) for each theme's background. */
 const THEME_COLORS: Record<Theme, string> = {
-  dark: '#0a0a0b',
-  light: '#f6f3e8',
-  solarized: '#002b36',
+  dark: '#0d1a14',
+  light: '#eef4fa',
+  dracula: '#282a36',
 }
 
 function applyTheme(next: Theme) {
