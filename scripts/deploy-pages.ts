@@ -2,7 +2,7 @@
  * Builds the frontend for GitHub Pages and publishes it to the `gh-pages`
  * branch of `origin`, which Pages serves at https://<owner>.github.io/<repo>/.
  *
- *   bun run deploy
+ *   bun run deploy:pages
  *
  * The branch holds only build output and is force-pushed on every deploy.
  */

@@ -42,10 +42,14 @@ The app is static files served by nginx at https://weather.bruntrager.win
 
 ```bash
 bun run deploy:nginx   # once per server: nginx site + Let's Encrypt certificate
-bun run deploy         # build locally from the working tree and upload
+bun run deploy         # build from the working tree and publish to both targets below
+bun run deploy:server  # only weather.bruntrager.win
+bun run deploy:pages   # only GitHub Pages
 ```
 
-`bun run deploy:pages` publishes the same build to GitHub Pages under `/weather/`.
+`deploy:pages` builds with the `/weather/` base path and force-pushes the result to the
+`gh-pages` branch. `deploy` runs the server deploy first, then Pages, and stops if the
+first one fails.
 
 ## Commands
 
