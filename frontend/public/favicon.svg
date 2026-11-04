@@ -1,11 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#0a0a0b"/>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="22">
-    <g stroke="#ffc94d">
-      <circle cx="200" cy="196" r="62"/>
-      <path d="M200 92v-26M200 326v-0M96 196H70M304 196h26M126 122l-18-18M274 122l18-18M126 270l-18 18"/>
-    </g>
-    <path fill="#0a0a0b" stroke="#f3f1e7" d="M176 404a72 72 0 0 1-7-143.6 99 99 0 0 1 190.8 25.2A59.4 59.4 0 0 1 356 404Z"/>
-  </g>
-  <rect x="96" y="436" width="96" height="14" fill="#c8ff4d"/>
+<rect width="512" height="512" fill="#0d1a14"/>
+<g transform="translate(256 256) scale(.88) translate(-240 -240)" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+<circle cx="190" cy="186" r="60" stroke="#f2cf66"/><path d="M190.0 88.0L190.0 62.0M259.3 116.7L277.7 98.3M288.0 186.0L314.0 186.0M259.3 255.3L277.7 273.7M190.0 284.0L190.0 310.0M120.7 255.3L102.3 273.7M92.0 186.0L66.0 186.0M120.7 116.7L102.3 98.3" stroke="#f2cf66"/>
+<path d="M176 404a72 72 0 0 1-7-143.6 99 99 0 0 1 190.8 25.2A59.4 59.4 0 0 1 356 404Z" transform="translate(6 -4)" fill="#0d1a14" stroke="#e4ede2"/></g>
 </svg>
