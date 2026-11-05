@@ -1,6 +1,7 @@
 import type { Forecast } from '@/lib/openMeteo'
 import { describeWeather } from '@/lib/weatherCodes'
 import WeatherIcon from './WeatherIcon'
+import WindGlyph from './WindGlyph'
 import { formatTemp, formatWeekday } from './format'
 
 export default function DailyForecast({ forecast }: { forecast: Forecast }) {
@@ -27,12 +28,16 @@ export default function DailyForecast({ forecast }: { forecast: Forecast }) {
           return (
             <li
               key={day}
-              class="grid grid-cols-[3rem_2rem_2.5rem_1fr] items-center gap-3 px-4 py-2"
+              class="grid grid-cols-[3rem_2rem_2.5rem_3rem_1fr] items-center gap-3 px-4 py-2"
             >
               <span class="text-ink">{i === 0 ? 'Today' : formatWeekday(day)}</span>
               <WeatherIcon sky={sky} class="h-6 w-6" />
               <span class={`font-mono text-xs ${rain >= 20 ? 'text-sky' : 'text-ink-dim/60'}`}>
                 {rain}%
+              </span>
+              <span class="flex items-center gap-0.5 font-mono text-xs text-ink-dim">
+                <WindGlyph />
+                {Math.round(daily.wind_speed_10m_max[i])}
               </span>
               <span class="flex items-center gap-2" title={label}>
                 <span class="w-8 text-right font-mono text-sm text-ink-dim">
